@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<orders>
+    <order id="1">
+        <customer id="1">
+            <firstname>John</firstname>
+            <lastname>Dow</lastname>
+        </customer>
+        <orderDate>2019-09-02 17:02:53</orderDate>
+        <status>processing</status>
+        <price>14.00</price>
+        <cart>
+            <product sku="ref1">
+                <name>Product 1</name>
+                <quantity>1</quantity>
+                <price>14.00</price>
+            </product>
+        </cart>
+    </order>
+    <order id="2">
+        <customer id="1">
+            <firstname>John</firstname>
+            <lastname>Dow</lastname>
+        </customer>
+        <orderDate>2019-09-02 18:23:32</orderDate>
+        <status>processing</status>
+        <price>40.00</price>
+        <cart>
+            <product sku="ref2">
+                <name>Product 2</name>
+                <quantity>1</quantity>
+                <price>10.00</price>
+            </product>
+            <product sku="ref3">
+                <name>Product 3</name>
+                <quantity>2</quantity>
+                <price>15.00</price>
+            </product>
+        </cart>
+    </order>
+    <order id="3">
+        <customer id="2">
+            <firstname>Walter</firstname>
+            <lastname>White</lastname>
+        </customer>
+        <orderDate>2019-09-04 10:32:51</orderDate>
+        <status>processing</status>
+        <price>120.00</price>
+        <cart>
+            <product sku="ref2">
+                <name>Product 2</name>
+                <quantity>10</quantity>
+                <price>10.00</price>
+            </product>
+            <product sku="ref4">
+                <name>Product 4</name>
+                <quantity>1</quantity>
+                <price>20.00</price>
+            </product>
+        </cart>
+    </order>
+    <order id="4">
+        <customer id="3">
+            <firstname>John</firstname>
+            <lastname>Snow</lastname>
+        </customer>
+        <orderDate>2019-09-05 08:54:22</orderDate>
+        <status>canceled</status>
+        <price>14.00</price>
+        <cart>
+            <product sku="ref1">
+                <name>Product 1</name>
+                <quantity>1</quantity>
+                <price>14.00</price>
+            </product>
+        </cart>
+    </order>
+</orders>
