@@ -15,8 +15,7 @@ class Order
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", unique=true)
      */
     private $id;
 
@@ -37,18 +36,30 @@ class Order
     private $customer;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="orderId")
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="orderId")
      */
-    private $orderProducts;
+    private $orderLines;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
 
     public function __construct()
     {
-        $this->orderProducts = new ArrayCollection();
+        $this->orderLines = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getOrderDate(): ?\DateTimeInterface
@@ -88,31 +99,43 @@ class Order
     }
 
     /**
-     * @return Collection|OrderProduct[]
+     * @return Collection|OrderLine[]
      */
-    public function getOrderProducts(): Collection
+    public function getOrderLines(): Collection
     {
-        return $this->orderProducts;
+        return $this->orderLines;
     }
 
-    public function addOrderProduct(OrderProduct $orderProduct): self
+    public function addOrderLine(OrderLine $orderLine): self
     {
-        if (!$this->orderProducts->contains($orderProduct)) {
-            $this->orderProducts[] = $orderProduct;
-            $orderProduct->setOrderId($this);
+        if (!$this->orderLines->contains($orderLine)) {
+            $this->orderLines[] = $orderLine;
+            $orderLine->setOrderId($this);
         }
 
         return $this;
     }
 
-    public function removeOrderProduct(OrderProduct $orderProduct): self
+    public function removeOrderLine(OrderLine $orderLine): self
     {
-        if ($this->orderProducts->removeElement($orderProduct)) {
+        if ($this->orderLines->removeElement($orderLine)) {
             // set the owning side to null (unless already changed)
-            if ($orderProduct->getOrderId() === $this) {
-                $orderProduct->setOrderId(null);
+            if ($orderLine->getOrderId() === $this) {
+                $orderLine->setOrderId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

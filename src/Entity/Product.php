@@ -20,7 +20,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $sku;
 
@@ -35,13 +35,13 @@ class Product
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="productId")
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="productId")
      */
-    private $productOrders;
+    private $orderLines;
 
     public function __construct()
     {
-        $this->productOrders = new ArrayCollection();
+        $this->orderLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,29 +86,29 @@ class Product
     }
 
     /**
-     * @return Collection|OrderProduct[]
+     * @return Collection|OrderLine[]
      */
-    public function getProductOrders(): Collection
+    public function getOrderLines(): Collection
     {
-        return $this->productOrders;
+        return $this->orderLines;
     }
 
-    public function addProductOrder(OrderProduct $productOrder): self
+    public function addOrderLine(OrderLine $orderLine): self
     {
-        if (!$this->productOrders->contains($productOrder)) {
-            $this->productOrders[] = $productOrder;
-            $productOrder->setProductId($this);
+        if (!$this->orderLines->contains($orderLine)) {
+            $this->orderLines[] = $orderLine;
+            $orderLine->setProductId($this);
         }
 
         return $this;
     }
 
-    public function removeProductOrder(OrderProduct $productOrder): self
+    public function removeOrderLine(OrderLine $orderLine): self
     {
-        if ($this->productOrders->removeElement($productOrder)) {
+        if ($this->orderLines->removeElement($orderLine)) {
             // set the owning side to null (unless already changed)
-            if ($productOrder->getProductId() === $this) {
-                $productOrder->setProductId(null);
+            if ($orderLine->getProductId() === $this) {
+                $orderLine->setProductId(null);
             }
         }
 

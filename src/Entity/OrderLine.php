@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderProductRepository;
+use App\Repository\OrderLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=OrderProductRepository::class)
+ * @ORM\Entity(repositoryClass=OrderLineRepository::class)
  */
-class OrderProduct
+class OrderLine
 {
     /**
      * @ORM\Id
@@ -18,7 +18,9 @@ class OrderProduct
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts")
+     * order est un mot réservé dans MySQL donc j'ai nommé orderId mais ce n'est pas très satisfaisant
+     * 
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderLines")
      * @ORM\JoinColumn(nullable=false)
      */
     private $orderId;
