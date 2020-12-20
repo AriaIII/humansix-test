@@ -35,19 +35,22 @@ class FillDatabaseWithXmlCommand extends Command
             
             $customerIds = [];
             $productSkus = [];
+            $orderIds = [];
 
             foreach ($orders as $order) {
                 $customerId =(int) $order->customer['id'];
                 
-                if (!in_array($customerId, $customerIds)) {
-                    $customerIds[] = $customerId;
-                    $this->customerModel->create($customerId, $order->customer->firstname, $order->customer->lastname);                    
+                if (!array_key_exists($customerId, $customerIds)) {
+                    $this->customerModel->create($order->customer->firstname, $order->customer->lastname);                    
+                    
+                    $customerIds[$customerId] = $this->customerModel->getCustomer()->getId();
                 }
                 
-                $customer = $this->customerModel->getCustomerById($customerId);
+                $customer = $this->customerModel->getCustomerById($customerIds[$customerId]);
                 
                 $orderId = (int) $order['id'];
-                $this->orderModel->create($orderId, $order->orderDate, $order->status, (float) $order->price, $customer);
+                $this->orderModel->create($order->orderDate, $order->status, (float) $order->price, $customer);
+                $orderIds[$orderId] = $this->orderModel->getOrder()->getId();
 
                 foreach($order->cart->product as $product) {
                     $productSku = (string) $product['sku'];
@@ -59,11 +62,10 @@ class FillDatabaseWithXmlCommand extends Command
                     }
 
                     $orderedProduct = $this->productModel->getProductBySku($productSku);
-                    $newOrder = $this->orderModel->getOrderById($orderId);
+                    $newOrder = $this->orderModel->getOrderById($orderIds[$orderId]);
 
                     $this->orderModel->createLine($orderedProduct,(int) $product->quantity, $newOrder);
                 }
-
             }
             
             $output->writeln('succès');

@@ -14,6 +14,11 @@ class ProductModel
         $this->em = $em;
     }
 
+    public function getProducts()
+    {
+        return $this->em->getRepository(Product::class)->findAll();
+    }
+
     public function getProductBySku($sku) {
         $this->product = $this->em->getRepository(Product::class)->findOneBySku($sku);
 

@@ -29,3 +29,27 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Model\OrderModel:
+        alias: app.order_model
+
+    app.order_model:
+        class: App\Model\OrderModel
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    App\Model\CustomerModel:
+        alias: app.customer_model
+
+    app.customer_model:
+        class: App\Model\CustomerModel
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    App\Model\ProductModel:
+        alias: app.product_model
+
+    app.product_model:
+        class: App\Model\ProductModel
+        arguments:
+            - '@doctrine.orm.entity_manager'

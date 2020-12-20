@@ -18,6 +18,26 @@ class OrderModel
         $this->em = $em;
     }
 
+    public function getOrders()
+    {
+        return $this->em->getRepository(Order::class)->findAll();
+    }
+
+    public function setOrder($order)
+    {
+        if($order instanceof Order) {
+            $this->order = $order;
+        }
+        return $this;
+    }
+
+    public function getOrder() {
+        if(!$this->order) {
+            return null;
+        }
+        return $this->order;
+    }
+
     public function getOrderById($id)
     { 
         $this->order = $this->em->getRepository(Order::class)->find($id);
@@ -28,11 +48,10 @@ class OrderModel
         return $this->order;
     }
 
-    public function create($id, $orderDate, $status, $price, Customer $customer) {
+    public function create($orderDate, $price, Customer $customer, $status='processing') {
         $order = new Order();
 
-        $order->setId($id)
-            ->setOrderDate(new \DateTime($orderDate))
+        $order->setOrderDate(new \DateTime($orderDate))
             ->setStatus($status)
             ->setPrice($price)
             ->setCustomer($customer)

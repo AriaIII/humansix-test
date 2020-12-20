@@ -15,7 +15,8 @@ class Order
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -53,13 +54,6 @@ class Order
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId($id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getOrderDate(): ?\DateTimeInterface

@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+		<div class="card mt-5">
+			<div class="card-header">
+				<div class="row align-items-center ">
+					<div class="col-md-6 col-sm-12 text-center text-md-left">
+						<h4 class="mb-0">Commandes</h4>
+					</div>
+					<div class="col-md-6 col-sm-12 text-center text-md-right">
+						<a href="{{ path('order_new') }}" class="btn btn-warning">
+							Ajouter
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div>
+					<table id="js-product-index-table" class="table table-striped table-bordered align-items-center">
+						<thead>
+							<tr class="align-items-center">
+								<th>ID</th>
+								<th>Date</th>
+								<th>Client</th>
+								<th>Statut</th>
+                                <th>Montant</th>
+                                <th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for order in orders %}
+								<tr>
+									<td class="align-middle">{{ order.id }}</td>
+                                    <td class="align-middle">{{ order.orderdate|date('Y-m-d h:m:s') }}</td>
+									<td class="align-middle">{{ order.customer.lastname }} {{ order.customer.firstname }}</td>
+									<td class="align-middle">{{ order.status }}</td>
+                                    <td class="align-middle">{{ order.price }}</td>
+									<td class="text-center align-middle">
+										<a href="{{ path('order_show', {'orderId': order.id}) }}" class="btn btn-primary btn-sm pull-right">Détail</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#js-product-index-table').DataTable({
+				"language": {
+					"lengthMenu": "Affiche _MENU_ entrées par page",
+					"zeroRecords": "Aucune entrée trouvée, désolé",
+					"info": "Page _PAGE_ sur _PAGES_",
+					"infoEmpty": "Aucune entrée enregistrée",
+					"infoFiltered": "(filtered from _MAX_ total records)",
+					"search": "Rechercher",
+					"paginate": {
+						"first": "Première",
+						"last": "Dernière",
+						"next": "Suivante",
+						"previous": "Précédente"
+					}
+				},
+				"order": [
+					[0, 'desc']
+				]
+			});
+        } );
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-5 mb-3">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4>
+                                    commande #{{ order.id }} - 
+                                    {{ order.customer.lastname }} {{ order.customer.firstname }} - 
+                                    {{ order.orderdate|date('Y-m-d h:m:s') }} - 
+                                    {{ order.price }} €
+                                </h4>
+                            </div>
+					        <div class="col-md-4 text-center text-md-right">
+					        	<a href="{{ path('order_index') }}" class="btn btn-secondary btn-sm" >
+					        		Retour
+					        	</a>
+					        </div>
+                        </div>
+                    </div>                    
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>produit</th>
+                                    <th>prix unitaire</th>
+                                    <th>quantité</th>                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for orderLine in order.orderLines %}
+                                        <tr>
+                                            <td>{{ orderLine.productId.name }}</td>
+                                            <td>{{ orderLine.productId.price }}</td>
+                                            <td>{{ orderLine.quantity }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

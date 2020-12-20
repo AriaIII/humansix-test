@@ -13,6 +13,18 @@ class CustomerModel
     public function __construct(EntityManagerInterface $em) {
         $this->em = $em;
     }
+
+    public function getCustomers()
+    {
+        return $this->em->getRepository(Customer::class)->findAll();
+    }
+
+    public function getCustomer() {
+        if(!$this->customer) {
+            return null;
+        }
+        return $this->customer;
+    }
     
     public function getCustomerById($id)
     { 
@@ -24,11 +36,10 @@ class CustomerModel
         return $this->customer;
     }
 
-    public function create($id, $firstname, $lastname) {
+    public function create($firstname, $lastname) {
         $customer = new Customer();
 
-        $customer->setId($id)
-            ->setFirstname($firstname)
+        $customer->setFirstname($firstname)
             ->setLastname($lastname)
         ;
 
