@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *  collectionOperations={"get"},
+ *  itemOperations={
+ *      "get"={"path"="/product/{id}"}
+ *  },
+ *  normalizationContext={"groups"={"product:read", "order:read"}},
+ *  
+ * )
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
 class Product
@@ -16,26 +27,33 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"product:read", "order:read"})
+     * @ApiProperty(identifier=false)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"product:read", "order:read"})     * 
+     * @ApiProperty(identifier=true)
      */
     private $sku;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"product:read", "order:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"product:read", "order:read"})
      */
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="productId")
+     * @ORM\OneToMany(targetEntity=OrderLine::class, mappedBy="product")
+     * @Groups("product:read")
      */
     private $orderLines;
 
@@ -97,7 +115,7 @@ class Product
     {
         if (!$this->orderLines->contains($orderLine)) {
             $this->orderLines[] = $orderLine;
-            $orderLine->setProductId($this);
+            $orderLine->setproduct($this);
         }
 
         return $this;
@@ -107,8 +125,8 @@ class Product
     {
         if ($this->orderLines->removeElement($orderLine)) {
             // set the owning side to null (unless already changed)
-            if ($orderLine->getProductId() === $this) {
-                $orderLine->setProductId(null);
+            if ($orderLine->getproduct() === $this) {
+                $orderLine->setproduct(null);
             }
         }
 

@@ -20,6 +20,11 @@
 				<form action="{{ path('order_create') }}" method="POST">
 					<div class="row">
 						<div class="col-md-6 pb-2 form-group">
+							{% for message in app.flashes('error') %}
+								<div class="alert alert-warning">
+									{{ message }}
+								</div>
+							{% endfor %}
 							<label for="customer">Client</label>
 						    <select name="customer" id="customer" class="form-control" required>
                                 <option value=""></option>

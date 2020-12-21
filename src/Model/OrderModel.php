@@ -67,8 +67,8 @@ class OrderModel
     public function createLine(Product $product, $quantity, Order $order) {
         $orderLine = new OrderLine();
 
-        $orderLine->setOrderId($order)
-            ->setProductId($product)
+        $orderLine->setorderConcerned($order)
+            ->setproduct($product)
             ->setQuantity($quantity)
         ;
 

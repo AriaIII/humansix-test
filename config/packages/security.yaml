@@ -25,7 +25,11 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-
+        api:
+            pattern:  ^/api
+            stateless: true
+            anonymous: true
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

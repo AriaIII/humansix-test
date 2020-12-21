@@ -32,7 +32,11 @@ class FillDatabaseWithXmlCommand extends Command
     {
         if (\file_exists('orders.xml')) {
             $orders = \simplexml_load_file('orders.xml');
-            
+
+            // Je pars du principe que la BDD est vierge puisqu'on crée le projet avec le fichier xml
+            // J'ai mis des id autoincrémentables. Comme on n'a pas la main dessus, il faut les récupérer en base 
+            // et les enregistrer en les faisant correspondre aux id du fichier xml.
+            // Je crée ici les tableaux destinés à récupérer les id des entités créés en base pour éviter les doublons
             $customerIds = [];
             $productSkus = [];
             $orderIds = [];
@@ -40,9 +44,11 @@ class FillDatabaseWithXmlCommand extends Command
             foreach ($orders as $order) {
                 $customerId =(int) $order->customer['id'];
                 
+                // On vérifie que le client créé n'existe pas déjà.
                 if (!array_key_exists($customerId, $customerIds)) {
                     $this->customerModel->create($order->customer->firstname, $order->customer->lastname);                    
                     
+                    // on récupère l'id du client en bdd et on le fait correspondre à l'id du fichier xml mis en clé du tableau
                     $customerIds[$customerId] = $this->customerModel->getCustomer()->getId();
                 }
                 
@@ -55,6 +61,7 @@ class FillDatabaseWithXmlCommand extends Command
                 foreach($order->cart->product as $product) {
                     $productSku = (string) $product['sku'];
 
+                    // On vérifie que le produit créé n'existe pas déjà.
                     if(!\in_array($productSku, $productSkus)) {
                         $productSkus[] = $productSku;
                         $productPrice = (float) $product->price;

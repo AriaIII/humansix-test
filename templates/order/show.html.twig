@@ -35,8 +35,8 @@
                                 <tbody>
                                     {% for orderLine in order.orderLines %}
                                         <tr>
-                                            <td>{{ orderLine.productId.name }}</td>
-                                            <td>{{ orderLine.productId.price }}</td>
+                                            <td>{{ orderLine.product.name }}</td>
+                                            <td>{{ orderLine.product.price }}</td>
                                             <td>{{ orderLine.quantity }}</td>
                                         </tr>
                                     {% endfor %}

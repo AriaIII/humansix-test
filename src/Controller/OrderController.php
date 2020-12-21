@@ -48,7 +48,18 @@ class OrderController extends AbstractController
      */
     public function create(Request $request)
     {
-        // dd($request->request);
+        $customer = $this->get('app.customer_model')->getCustomerById($request->request->get('customer'));
+        
+        if(!$customer) {
+            $this->addFlash('error', 'Choisissez un client dans la liste');
+            return $this->redirectToRoute('order_new');
+        }
+
+        if (empty(array_filter($request->request->get('product')))) {
+            $this->addFlash('error', 'Vous devez commander au moins un produit');
+            return $this->redirectToRoute('order_new');
+        }
+
         $orderPrice = 0;
         $productLines = [];
         foreach($request->request->get('product') as $productSku => $quantity) {
@@ -59,8 +70,6 @@ class OrderController extends AbstractController
                 $productLines[$quantity] = $product;
             } 
         }
-
-        $customer = $this->get('app.customer_model')->getCustomerById($request->request->get('customer'));
 
         $this->get('app.order_model')
             ->create(

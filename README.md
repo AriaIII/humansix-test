@@ -20,3 +20,4 @@ J'ai utilisé Symfony 5.2 et MySQL pour ce projet.
 - Elle donne accès après la connexion à la liste des commandes sur la page /order
 - On accède au détail d'une commande : /order/{orderId}
 - On crée une nouvelle commande : /order/create
+Les pages order sont accessibles seulement si on est connecté

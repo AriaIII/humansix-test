@@ -2,10 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderLineRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderLineRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *  collectionOperations={"get"},
+ *  itemOperations={"get"},
+ *  normalizationContext={"groups"={"order:read"}},
+ * )
  * @ORM\Entity(repositoryClass=OrderLineRepository::class)
  */
 class OrderLine
@@ -14,25 +21,28 @@ class OrderLine
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("order:read")
      */
     private $id;
 
     /**
-     * order est un mot réservé dans MySQL donc j'ai nommé orderId mais ce n'est pas très satisfaisant
+     * order est un mot réservé dans MySQL donc j'ai nommé la proprété orderConcerned
      * 
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderLines")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $orderId;
+    private $orderConcerned;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productOrders")
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="orderLines")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("order:read")
      */
-    private $productId;
+    private $product;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("order:read")
      */
     private $quantity;
 
@@ -41,26 +51,26 @@ class OrderLine
         return $this->id;
     }
 
-    public function getOrderId(): ?Order
+    public function getorderConcerned(): ?Order
     {
-        return $this->orderId;
+        return $this->orderConcerned;
     }
 
-    public function setOrderId(?Order $orderId): self
+    public function setorderConcerned(?Order $orderConcerned): self
     {
-        $this->orderId = $orderId;
+        $this->orderConcerned = $orderConcerned;
 
         return $this;
     }
 
-    public function getProductId(): ?Product
+    public function getproduct(): ?Product
     {
-        return $this->productId;
+        return $this->product;
     }
 
-    public function setProductId(?Product $productId): self
+    public function setproduct(?Product $product): self
     {
-        $this->productId = $productId;
+        $this->product = $product;
 
         return $this;
     }
