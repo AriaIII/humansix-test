@@ -21,3 +21,7 @@ J'ai utilisé Symfony 5.2 et MySQL pour ce projet.
 - On accède au détail d'une commande : /order/{orderId}
 - On crée une nouvelle commande : /order/create
 Les pages order sont accessibles seulement si on est connecté
+
+## API
+
+J'ai utilisé API Platform - Elle est accessible sur /api. On peut la tester avec Postman par exemple
