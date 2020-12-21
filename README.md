@@ -5,7 +5,7 @@ J'ai utilisé Symfony 5.2 et MySQL pour ce projet.
 ## installation du projet
 
 - cloner le repo
-- créer et configurer le .env.local avec les identifiants à votre base de données
+- créer et configurer le .env.local avec les identifiants de votre base de données
 - ouvrir un terminal dans le dossier du projet
 - taper les commandes suivantes :
   - composer install
